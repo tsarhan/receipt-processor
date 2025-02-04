@@ -2,7 +2,7 @@
 Web service for awarding points to submitted receipts.
 
 # Run Steps
-1. Clone or download repo
+1. Clone or download repo https://github.com/tsarhan/receipt-processor
 2. Docker Desktop/CLI is required to run this so please make sure to have it installed locally 
 3. In root directory of the project build the docker image with the command below. 
 ```
