@@ -4,16 +4,16 @@
     "purchaseTime": "14:33",
     "items": [
       {
-        "shortDescription": "Gatorade",
+        "shortDescription": "gatorade",
+        "price": "2.25"
+      },{
+        "shortDescription": "Xatorade",
         "price": "2.25"
       },{
         "shortDescription": "Gatorade",
         "price": "2.25"
       },{
-        "shortDescription": "Gatorade",
-        "price": "2.25"
-      },{
-        "shortDescription": "Gatorade",
+        "shortDescription": " Gatorade",
         "price": "2.25"
       }
     ],

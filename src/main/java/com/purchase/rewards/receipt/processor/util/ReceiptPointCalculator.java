@@ -63,12 +63,12 @@ public class ReceiptPointCalculator {
         return points;
     }
 
-    private int calculateDateTimePoints(LocalDate purchaseDate, LocalTime purchaseTime) {
+    int calculateDateTimePoints(LocalDate purchaseDate, LocalTime purchaseTime) {
         if(Objects.isNull(purchaseDate) || Objects.isNull(purchaseTime)) throw new IllegalArgumentException(GlobalControllerAdvice.RECEIPT_IS_INVALID);
         int points = 0;
         
         //Odd days get extra points
-        if(purchaseDate.getDayOfMonth() <= 2 || purchaseDate.getDayOfMonth() % 2 != 0) {
+        if(purchaseDate.getDayOfMonth() <= 1 || purchaseDate.getDayOfMonth() % 2 != 0) {
             points+=oddDayPoints;
             logger.debug("Odd Date points={}", points);
         }
@@ -82,22 +82,29 @@ public class ReceiptPointCalculator {
 
     }
 
-    private int calculateItemPoints(List<ItemsDTO> items) {
+    int calculateItemPoints(List<ItemsDTO> items) {
         if(CollectionUtils.isEmpty(items)) throw new IllegalArgumentException(GlobalControllerAdvice.RECEIPT_IS_INVALID);
         //every two items get extra points
         int pointsByCount = (items.size()/2) * itemPairPoints;
         int pointsByCharacterCount = 0;
+        int pointsForItemsThatStartWithG = 0;
         
         for(ItemsDTO item : items) {
             if(item.getShortDescription().trim().length() % itemDescriptionLengthMutiple == 0) {
                 pointsByCharacterCount+= Math.ceil(item.getPrice() * itemPriceMultipler);
             }
+
+            if(item.getShortDescription().trim().startsWith("g") || item.getShortDescription().trim().startsWith("G")) {
+                pointsForItemsThatStartWithG+=10;
+            }
         }
+
+
 
         logger.debug("Items pair points={}", pointsByCount);
         logger.debug("Item pointsByCharacterCount={}", pointsByCharacterCount);
 
-        return pointsByCount+pointsByCharacterCount;
+        return pointsByCount+pointsByCharacterCount+pointsForItemsThatStartWithG;
     }
 
     private int calculateTotalPoints(float total) {
